@@ -1,0 +1,93 @@
+{% extends "manage/base_with_side.html" %}
+{% block breadcrumb %}
+    <div>
+        <ul class="breadcrumb">
+            <li>
+                Index <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="{% url 'manage_changepass' %}">ChangePassword</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block right_block %}
+
+
+    <div class="row-fluid">
+
+        <div class="box span8">
+            <div class="well box span12 center">
+
+                <style>
+
+                    .form-horizontal  label {
+                        width: 200px;
+                        float: left;
+                        margin-left: 100px;
+
+                        margin-right: 20px;
+                        height: 30px;
+                        line-height: 30px;
+                        margin-bottom: 20px;
+                        text-align: right;
+                        font-size: 20px;
+                    }
+
+                    .form-horizontal input {
+                        height: 30px;
+                        line-height: 30px;
+
+                        margin-bottom: 20px;
+                        float: left;
+
+                    }
+
+                </style>
+
+                <form class="form-horizontal" action="{% url 'manage_changepass' %}" method="post">
+                    <fieldset>
+                        {% csrf_token %}
+
+                        {% if oldpassword_is_wrong %}
+                            <div class="alert alert-error">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <h4>Error!</h4>Old password was wrong
+                            </div>
+                        {% endif %}
+
+
+                        {% if changepwd_success %}
+                            <div class="alert">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <h4>Success!</h4>
+                                password changed successfully
+                            </div>
+                        {% endif %}
+
+
+
+
+
+                        <div class="clearfix"></div>
+
+                        {{ form }}
+
+                        <div class="clearfix"></div>
+
+                        <br/>
+
+                        <p class="center span5">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </p>
+                    </fieldset>
+                </form>
+            </div>
+            <!--/span-->
+        </div>
+
+    </div>
+    <!--/row-->
+
+
+{% endblock %}

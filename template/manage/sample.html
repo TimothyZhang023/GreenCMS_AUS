@@ -1,0 +1,23 @@
+{% extends "manage/base_with_side.html" %}
+{% block breadcrumb %}
+    <div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url 'manage_dashboard' %}">仪表盘</a> <span class="divider">/</span>
+            </li>
+            <li>
+                <a href="#">Dashboard</a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block right_block %}
+
+
+    Hello world,<br/>
+    Welcome back.
+
+
+
+{% endblock %}
