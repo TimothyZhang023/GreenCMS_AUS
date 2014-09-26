@@ -10,7 +10,7 @@ urlpatterns = patterns('',
                        url(r'^manage/', include('home.urls')),
                        url(r'^auth/', include('auth.urls')),
                        url(r'^admin/', include(admin.site.urls)),
-
+                       url(r'^gcs/', include('api.urls')),
 )
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,5 +1,5 @@
 {% extends "manage/base.html" %}
-{% block title %} GreenCMS Central System Admin{% endblock %}
+{% block title %} GreenCMS Version Control System {% endblock %}
 {% block content %}
     <!-- topbar starts -->
     <div class="navbar">
@@ -13,7 +13,7 @@
                 </a>
                 <a class="brand" style="width: 400px;" href="{% url 'manage_dashboard' %}">
                     <!--<img alt="GreenCMS Logo" src="img/logo20.png" />-->
-                    <span>GreenCMS Active Update System</span>
+                    <span>GreenCMS Active Upgrade System</span>
 
                 </a>
                 <!-- user dropdown starts -->
@@ -56,21 +56,21 @@
 
 
                          <li class="nav-header hidden-tablet">GreenCMS v2.3+</li>
-                        <li><a class="ajax-link" href="{% url 'manage_version_list' %}"><i
+                        <li><a class="ajax-link" href="{% url 'gcs_upgrade_list' %}"><i
                                 class="icon-align-justify"></i><span
-                                class="hidden-tablet"> GCS Main</span></a></li>
+                                class="hidden-tablet"> GCS Upgrade</span></a></li>
 
-                         <li><a class="ajax-link" href="{% url 'manage_version_list' %}"><i
+                         <li><a class="ajax-link" href="{% url 'gcs_theme_list' %}"><i
                                 class="icon-align-justify"></i><span
                                 class="hidden-tablet"> GCS Theme</span></a></li>
 
-                        <li><a class="ajax-link" href="{% url 'manage_version_list' %}"><i
+                        <li><a class="ajax-link" href="{% url 'gcs_plugin_list' %}"><i
                                 class="icon-align-justify"></i><span
                                 class="hidden-tablet"> GCS Plugin</span></a></li>
 
-                         <li><a class="ajax-link" href="{% url 'manage_version_list' %}"><i
+                         <li><a class="ajax-link" href="{% url 'gcs_full_list' %}"><i
                                 class="icon-align-justify"></i><span
-                                class="hidden-tablet"> GCS Full</span></a></li>
+                                class="hidden-tablet"> GCS Build</span></a></li>
 
                     </ul>
                     <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox">

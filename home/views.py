@@ -88,6 +88,7 @@ def manage_version_file(request):
     return HttpResponse("manage_version_file")
 
 
+@login_required(login_url='auth_login')
 def handle_uploaded_file(f, filename):
     if settings.not_sae:
         with fs._open(filename, 'wb+') as info:
@@ -98,13 +99,12 @@ def handle_uploaded_file(f, filename):
     else:
         #on sae
         import sae.const
+        import sae.storage
 
         access_key = sae.const.ACCESS_KEY
         secret_key = sae.const.SECRET_KEY
         appname = sae.const.APP_NAME
         domain_name = "update"  #刚申请的domain
-
-        import sae.storage
 
         s = sae.storage.Client()
         ob = sae.storage.Object(f.read())
@@ -135,3 +135,37 @@ def manage_changepass(request):
                                           RequestContext(request, {'form': form, 'oldpassword_is_wrong': True}))
         else:
             return render_to_response('manage/change_pass.html', RequestContext(request, {'form': form, }))
+
+
+def gcs_upgrade_list(request):
+    version_list = Version.objects.order_by('-version').all()
+    return render_to_response('manage/gcs_upgrade_list.html', {'version_list': version_list},
+                              context_instance=RequestContext(request))
+
+
+def gcs_theme_list(request):
+    return render_to_response('manage/gcs_theme_list.html')
+
+
+def gcs_plugin_list(request):
+    return render_to_response('manage/gcs_plugin_list.html')
+
+
+def gcs_full_list(request):
+    return render_to_response('manage/gcs_full_list.html')
+
+
+def gcs_upgrade_add(request):
+    return render_to_response('manage/gcs_upgrade_add.html')
+
+
+def gcs_upgrade_edit(request):
+    return render_to_response('manage/gcs_upgrade_edit.html')
+
+
+def gcs_upgrade_addHandle(request):
+    return render_to_response('manage/gcs_upgrade_addHandle.html')
+
+
+def gcs_upgrade_editHandle(request):
+    return render_to_response('manage/gcs_upgrade_editHandle.html')

@@ -11,6 +11,15 @@ urlpatterns = patterns('home.views',
                        url(r'^dashboard/$', 'manage_dashboard', name='manage_dashboard'),
                        url(r'^changepass/$', 'manage_changepass', name='manage_changepass'),
 
+                       url(r'^gcs/upgrade/list$', 'gcs_upgrade_list', name='gcs_upgrade_list'),
+                       url(r'^gcs/theme/list$', 'gcs_theme_list', name='gcs_theme_list'),
+                       url(r'^gcs/plugin/list$', 'gcs_plugin_list', name='gcs_plugin_list'),
+                       url(r'^gcs/full/list$', 'gcs_full_list', name='gcs_full_list'),
 
+                       url(r'^gcs/upgrade/add', 'gcs_upgrade_add', name='gcs_upgrade_add'),
+                       url(r'^gcs/upgrade/addHandle', 'gcs_upgrade_addHandle', name='gcs_upgrade_addHandle'),
+
+                       url(r'^gcs/upgrade/edit', 'gcs_upgrade_edit', name='gcs_upgrade_edit'),
+                       url(r'^gcs/upgrade/editHandle', 'gcs_upgrade_editHandle', name='gcs_upgrade_editHandle'),
 
 )
