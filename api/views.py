@@ -50,3 +50,18 @@ def version(request, version=0):
     return HttpResponse(json.dumps(version_check_res), content_type="application/json")
 
     #return HttpResponse(json.dumps(version_check_res, ensure_ascii=False))
+
+
+def query_gcs_diff(request, version):
+    return HttpResponse("query_gcs_diff"+version)
+    pass
+
+
+def query_gcs_plugin_diff(request, p1, name, version):
+    return HttpResponse("query_gcs_plugin_diff"+version)
+    pass
+
+
+def query_gcs_theme_diff(request, p1, name, version):
+    return HttpResponse("query_gcs_theme_diff"+version)
+    pass

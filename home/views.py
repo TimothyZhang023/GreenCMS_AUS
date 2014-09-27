@@ -122,10 +122,10 @@ def manage_changepass(request):
         form = ChangepwdForm(request.POST)
         if form.is_valid():
             username = request.user.username
-            oldpassword = request.POST.get('oldpassword', '')
+            oldpassword = request.POST.get_opinion('oldpassword', '')
             user = auth.authenticate(username=username, password=oldpassword)
             if user is not None and user.is_active:
-                newpassword = request.POST.get('newpassword1', '')
+                newpassword = request.POST.get_opinion('newpassword1', '')
                 user.set_password(newpassword)
                 user.save()
                 return render_to_response('manage/change_pass.html',
