@@ -7,7 +7,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.validators import RegexValidator
-from api.models import Version
+import time
+from api.models import Version, GcsVersion
+from home.models import Opinion
 from web2 import conf, settings
 from django.db.models import Max
 from django.http import Http404, HttpResponse, StreamingHttpResponse, HttpResponseRedirect
@@ -17,7 +19,7 @@ from django.core.files.storage import FileSystemStorage
 #
 fs = FileSystemStorage(location=settings.UPGRADE_URL)
 
-# Create your views here.
+
 numeric = RegexValidator(r'^[0-9]*$', 'Only numbers are allowed.')
 
 
@@ -138,9 +140,59 @@ def manage_changepass(request):
 
 
 def gcs_upgrade_list(request):
-    version_list = Version.objects.order_by('-version').all()
+    version_list = GcsVersion.objects.order_by('-version').all()
     return render_to_response('manage/gcs_upgrade_list.html', {'version_list': version_list},
                               context_instance=RequestContext(request))
+
+def gcs_upgrade_add(request):
+    form = UploadFileForm()
+    default_version = Opinion.get_opinion('default_version').opinion_value
+
+    lastest_build = str(GcsVersion.objects.all().aggregate(Max('build_target'))['build_target__max'])
+    build_target = str(time.strftime('%Y%m%d', time.localtime(time.time())))
+
+    lastest_version = default_version + "." + lastest_build[-4:]
+    version_target = default_version + "." + build_target[-4:]
+
+    return render_to_response('manage/gcs_upgrade_add.html',
+                              {
+                                  'build_from': lastest_build,
+                                  'build_target': build_target,
+                                  'version_from': lastest_version,
+                                  'version_target': version_target,
+                                  'form': form
+                              },
+                              context_instance=RequestContext(request))
+
+
+def gcs_upgrade_edit(request):
+    return render_to_response('manage/gcs_upgrade_edit.html')
+
+
+def gcs_upgrade_add_handle(request):
+    if request.method == 'POST':
+        return HttpResponseRedirect(reverse('gcs_upgrade_list'))
+
+
+def gcs_upgrade_edit_handle(request):
+    return render_to_response('manage/gcs_upgrade_editHandle.html')
+
+
+
+@login_required(login_url='auth_login')
+def gcs_upgrade_del_handle(request, id=0):
+    if id == 0:
+        raise Http404()
+
+    version = GcsVersion.objects.get(id=id)
+    version.delete()
+
+    return HttpResponseRedirect(reverse('manage_version_list'))
+
+
+
+
+
 
 
 def gcs_theme_list(request):
@@ -155,17 +207,8 @@ def gcs_full_list(request):
     return render_to_response('manage/gcs_full_list.html')
 
 
-def gcs_upgrade_add(request):
-    return render_to_response('manage/gcs_upgrade_add.html')
 
 
-def gcs_upgrade_edit(request):
-    return render_to_response('manage/gcs_upgrade_edit.html')
-
-
-def gcs_upgrade_addHandle(request):
-    return render_to_response('manage/gcs_upgrade_addHandle.html')
-
-
-def gcs_upgrade_editHandle(request):
-    return render_to_response('manage/gcs_upgrade_editHandle.html')
+def jump(request):
+    destination = request.GET.get_opinion('des', '')
+    return render_to_response('jump.html', {'destination': destination}, context_instance=RequestContext(request))

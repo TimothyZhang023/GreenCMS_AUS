@@ -17,15 +17,37 @@ class Version(models.Model):
 
 
 class GcsVersion(models.Model):
-    version_build = models.CharField(max_length=25)
-    version_target = models.CharField(max_length=255)
+    #build is number 20140928
+    #version like string v2.5.11.01
+    build = models.IntegerField(max_length=14)
+    version = models.CharField(max_length=100)
+
+    version_from = models.CharField(max_length=100)
+    version_target = models.CharField(max_length=100)
+
     build_from = models.IntegerField(max_length=14)
     build_target = models.IntegerField(max_length=14)
+
+    # 1 for ok , 0 for need approval ,2 for phase ,3 for reject ,4 for unload , 5 for delete
     statue = models.IntegerField(max_length=6)
+
+    #grenerated by db
     submit_date = models.DateField(auto_now=True)
+
+    #grenerated by conf
     file_server = models.CharField(max_length=255)
+
+    #grenerated by info
     file_name = models.CharField(max_length=255)
+
+    #grenerated auto
     md5_hash = models.CharField(max_length=255)
+
+    #to gen github links
     git_hash = models.CharField(max_length=255)
-    describe = models.CharField(max_length=255)
+
+    #description for upgrade
+    description = models.CharField(max_length=255)
+
+    #extra url
     more_url = models.CharField(max_length=255)

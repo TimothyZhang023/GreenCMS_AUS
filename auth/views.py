@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def auth_login(request):
-    redirect_to = request.REQUEST.get_opinion('next', '/manage/dashboard/')
+    redirect_to = request.REQUEST.get('next', '/manage/dashboard/')
 
     if request.method == 'GET':
         return render_to_response('manage/login.html',

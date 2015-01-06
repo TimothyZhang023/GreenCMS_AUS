@@ -8,7 +8,6 @@
             <li>
                 <a href="{% url 'gcs_upgrade_list' %}"> GCS </a>
             </li>
-
              <li>
                 <a href="{% url 'gcs_upgrade_list' %}"> Upgrade </a>
             </li>
@@ -26,7 +25,7 @@
                 <h2><i class="icon-user"></i> Upgrade List</h2>
 
                 <div class="box-icon">
-                    <a href="{% url 'manage_version_add' %}" class="btn btn-plus btn-round"><i
+                    <a href="{% url 'gcs_upgrade_add' %}" class="btn btn-plus btn-round"><i
                             class="icon-plus-sign"></i></a>
                     <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
                     <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
@@ -43,22 +42,31 @@
                         <tr role="row">
                             <th class="sorting_desc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1" aria-sort="descending" aria-label="Version"
-                                style="width: 208px;">Build Target
+                                style="width: 208px;">Build
                             </th>
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1" aria-label="Version From" style="width: 181px;">
-                                Build From
+                                Version
                             </th>
+
+                              <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 181px;">
+                                From
+                            </th>
+
+           <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                        rowspan="1" colspan="1" aria-label="Version From" style="width: 181px;">
+                                        Target
+
+                                    </th>
+
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1"
                                 aria-label=" Version To" style="width: 94px;">
                                 File Name
 
                             </th>
-                            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
-                                rowspan="1" colspan="1"
-                                aria-label="Status: activate to sort column ascending" style="width: 106px;">Version
-                            </th>
+
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1"
                                 aria-label=" Version To" style="width: 389px;">Action
@@ -72,13 +80,12 @@
 
                         {% for version in version_list %}
                             <tr>
-                                <td class=" sorting_1">{{ version.version }}</td>
-                                <td class="center ">{{ version.build_from }}</td>
-                                <td class="center ">{{ version.filename }}</td>
-                                <td class="center ">
-                                    <span class="label label-important">{{ version.version_to }}</span>
+                                <td class=" sorting_1">{{ version.build }}</td>
+                                <td class="center ">{{ version.version }}</td>
+                                <td class="center ">{{ version.version_from }} | {{ version.build_from }}</td>
+                                <td class="center ">{{ version.version_target }} | {{ version.build_target }}</td>
+                                <td class="center ">{{ version.file_name }}</td>
 
-                                </td>
                                 <td class="center ">
                                     <a class="btn btn-success" href="#">
                                         <i class="icon-zoom-in icon-white"></i>
@@ -88,7 +95,7 @@
                                         <i class="icon-edit icon-white"></i>
                                         Edit
                                     </a>
-                                    <a class="btn btn-danger" href="{% url 'manage_version_del' version.id %}#"
+                                    <a class="btn btn-danger" href="{% url 'gcs_upgrade_del_handle' version.id %}#"
                                             onclick="return confirm('Sure to delete?');"
                                             >
                                         <i class="icon-trash icon-white"></i>
