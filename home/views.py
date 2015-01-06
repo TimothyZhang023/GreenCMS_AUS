@@ -19,7 +19,6 @@ from django.core.files.storage import FileSystemStorage
 #
 fs = FileSystemStorage(location=settings.UPGRADE_URL)
 
-
 numeric = RegexValidator(r'^[0-9]*$', 'Only numbers are allowed.')
 
 
@@ -144,6 +143,7 @@ def gcs_upgrade_list(request):
     return render_to_response('manage/gcs_upgrade_list.html', {'version_list': version_list},
                               context_instance=RequestContext(request))
 
+
 def gcs_upgrade_add(request):
     form = UploadFileForm()
     default_version = Opinion.get_opinion('default_version').opinion_value
@@ -171,12 +171,47 @@ def gcs_upgrade_edit(request):
 
 def gcs_upgrade_add_handle(request):
     if request.method == 'POST':
-        return HttpResponseRedirect(reverse('gcs_upgrade_list'))
+        print request.POST
+        print request._files
+        build_target = request.POST['build_target']
+        build_from = request.POST['build_from']
+        version_from = request.POST['version_from']
+        version_target = request.POST['version_target']
+        git_hash = request.POST['git_hash']
+        more_url = request.POST['more_url']
+        description = request.POST['description']
+        if not (build_from and build_target and version_from and version_target):
+            return HttpResponse("信息不全")
+            #filename:GreenCMS_20140321_to_20140322.zip
+        filename = 'GreenCMS_' + build_from + '_to_' + build_target + '.zip'
+
+
+        #todo upload file
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'], filename)
+            version1 = GcsVersion(
+                build=build_target,
+                version=version_target,
+                build_target=build_target,
+                build_from=build_from,
+                version_target=version_target,
+                version_from=version_from,
+                statue=0,
+                file_name=filename,
+                md5_hash="md5",
+                git_hash=git_hash,
+                more_url=more_url,
+                description=description,
+            )
+            version1.save()
+            return HttpResponseRedirect(reverse('gcs_upgrade_list'))
+        else:
+            return HttpResponse("error")
 
 
 def gcs_upgrade_edit_handle(request):
     return render_to_response('manage/gcs_upgrade_editHandle.html')
-
 
 
 @login_required(login_url='auth_login')
@@ -185,12 +220,10 @@ def gcs_upgrade_del_handle(request, id=0):
         raise Http404()
 
     version = GcsVersion.objects.get(id=id)
-    version.delete()
+    version.statue = 5
+    version.save()
 
-    return HttpResponseRedirect(reverse('manage_version_list'))
-
-
-
+    return HttpResponseRedirect(reverse('gcs_upgrade_list'))
 
 
 
@@ -205,8 +238,6 @@ def gcs_plugin_list(request):
 
 def gcs_full_list(request):
     return render_to_response('manage/gcs_full_list.html')
-
-
 
 
 def jump(request):

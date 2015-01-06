@@ -6,11 +6,10 @@
                 <a href="{% url 'manage_dashboard' %}">Dashboard</a> <span class="divider">/</span>
             </li>
             <li>
-                <a href="{% url 'gcs_upgrade_list' %}"> GCS </a>  <span class="divider">/</span>
+                <a href="{% url 'gcs_upgrade_list' %}"> GCS </a>
             </li>
-
-            <li>
-                <a href="{% url 'gcs_upgrade_list' %}"> Upgrade </a>  <span class="divider">/</span>
+             <li>
+                <a href="{% url 'gcs_upgrade_list' %}"> Upgrade </a>
             </li>
             <li>
                 <a href="{% url 'gcs_upgrade_add' %}"> Add </a>
@@ -45,7 +44,7 @@
                             <label class="control-label" for="focusedInput">Build Target</label>
 
                             <div class="controls">
-                                <input class="input-xlarge focused" id="target" type="number" name="target"
+                                <input class="input-xlarge focused" id="build_target" type="number" name="build_target"
                                        value="{{ build_target }}">
                                 <span class="help-inline">new build</span>
 
@@ -80,7 +79,7 @@
 
                             <div class="controls">
                                 <input class="input-xlarge focused" id="version_from" type="text" name="version_from"
-                                       disabled="disabled" value="{{ version_from }}"> <span class="help-inline">old version , leave empty</span>
+                                       readonly="true" value="{{ version_from }}"> <span class="help-inline">old version , leave empty</span>
 
                             </div>
                         </div>
@@ -107,10 +106,10 @@
 
 
                         <div class="control-group">
-                            <label class="control-label" for="focusedInput">describe</label>
+                            <label class="control-label" for="focusedInput">Description</label>
 
                             <div class="controls">
-                                <textarea class="input-xlarge focused" id="describe" type="text" name="description"
+                                <textarea class="input-xlarge focused" id="description" type="text" name="description"
                                           style="height: 100px"
                                           value=""></textarea> <span class="help-inline">description for upgrade</span>
 

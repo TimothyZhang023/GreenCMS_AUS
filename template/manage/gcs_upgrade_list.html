@@ -42,20 +42,20 @@
                         <tr role="row">
                             <th class="sorting_desc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1" aria-sort="descending" aria-label="Version"
-                                style="width: 208px;">Build
+                                style="width: 100px;">Build
                             </th>
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
-                                rowspan="1" colspan="1" aria-label="Version From" style="width: 181px;">
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 100px;">
                                 Version
                             </th>
 
                               <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
-                                rowspan="1" colspan="1" aria-label="Version From" style="width: 181px;">
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 200px;">
                                 From
                             </th>
 
            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
-                                        rowspan="1" colspan="1" aria-label="Version From" style="width: 181px;">
+                                        rowspan="1" colspan="1" aria-label="Version From" style="width: 200px;">
                                         Target
 
                                     </th>
@@ -86,15 +86,24 @@
                                 <td class="center ">{{ version.version_target }} | {{ version.build_target }}</td>
                                 <td class="center ">{{ version.file_name }}</td>
 
-                                <td class="center ">
+                                <td class="center " style="line-height: 30px">
                                     <a class="btn btn-success" href="#">
                                         <i class="icon-zoom-in icon-white"></i>
                                         View
                                     </a>
-                                    <a class="btn btn-info" href="#">
+
+                                    <a class="btn btn-inverse" href="#">
+                                        <i class="icon-ok icon-white"></i>
+                                        Approval
+                                    </a>
+
+
+                                    <a class="btn btn-info"  href="{% url 'gcs_upgrade_edit' version.id %}#" >
                                         <i class="icon-edit icon-white"></i>
                                         Edit
                                     </a>
+
+
                                     <a class="btn btn-danger" href="{% url 'gcs_upgrade_del_handle' version.id %}#"
                                             onclick="return confirm('Sure to delete?');"
                                             >
