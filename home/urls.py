@@ -23,7 +23,8 @@ urlpatterns = patterns('home.views',
                        url(r'^gcs/upgrade/addHandle$', 'gcs_upgrade_add_handle', name='gcs_upgrade_add_handle'),
 
                        url(r'^gcs/upgrade/edit/(?P<id>\d+)/', 'gcs_upgrade_edit', name='gcs_upgrade_edit'),
-                       url(r'^gcs/upgrade/editHandle$', 'gcs_upgrade_edit_handle', name='gcs_upgrade_edit_handle'),
+                       url(r'^gcs/upgrade/editHandle/(?P<id>\d+)/', 'gcs_upgrade_edit_handle', name='gcs_upgrade_edit_handle'),
                        url(r'^gcs/upgrade/del/(?P<id>\d+)/',  'gcs_upgrade_del_handle', name='gcs_upgrade_del_handle'),
+                       url(r'^gcs/upgrade/restore/(?P<id>\d+)/',  'gcs_upgrade_restore_handle', name='gcs_upgrade_restore_handle'),
 
 )

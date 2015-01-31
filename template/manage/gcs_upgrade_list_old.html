@@ -12,6 +12,10 @@
              <li>
                 <a href="{% url 'gcs_upgrade_list' %}"> Upgrade </a>
             </li>
+                        <span class="divider">/</span>
+   <li>
+                <a href="{% url 'gcs_upgrade_list' %}"> Removed </a>
+            </li>
 
         </ul>
     </div>
@@ -87,10 +91,10 @@
                                 <td class="center ">{{ version.file_name }}</td>
 
                                 <td class="center " style="line-height: 30px">
-                                    <a class="btn btn-success" href="{% url 'query_gcs_diff' version.build_from %}">
-                                        <i class="icon-zoom-in icon-white"></i>
-                                        View
-                                    </a>
+{#                                    <a class="btn btn-success" href="#">#}
+{#                                        <i class="icon-zoom-in icon-white"></i>#}
+{#                                        View#}
+{#                                    </a>#}
 {##}
 {#                                    <a class="btn btn-inverse" href="#">#}
 {#                                        <i class="icon-ok icon-white"></i>#}
@@ -98,18 +102,19 @@
 {#                                    </a>#}
 
 
-                                    <a class="btn btn-info"  href="{% url 'gcs_upgrade_edit' version.id %}#" >
-                                        <i class="icon-edit icon-white"></i>
-                                        Edit
-                                    </a>
+{#                                    <a class="btn btn-info"  href="{% url 'gcs_upgrade_edit' version.id %}#" >#}
+{#                                        <i class="icon-edit icon-white"></i>#}
+{#                                        Edit#}
+{#                                    </a>#}
 
 
-                                    <a class="btn btn-danger" href="{% url 'gcs_upgrade_del_handle' version.id %}#"
-                                            onclick="return confirm('Sure to delete?');"
-                                            >
+                                    <a class="btn btn-success" href="{% url 'gcs_upgrade_restore_handle' version.id %}#"
+                                             >
                                         <i class="icon-trash icon-white"></i>
-                                        Del
+                                        Restore
                                     </a>
+
+
                                 </td>
                             </tr>
 

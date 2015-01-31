@@ -147,10 +147,8 @@ def gcs_upgrade_list(request):
 @login_required(login_url='auth_login')
 def gcs_upgrade_list_old(request):
     version_list = GcsVersion.objects.filter(statue=5).order_by('-version').all()
-    return render_to_response('manage/gcs_upgrade_list.html', {'version_list': version_list},
+    return render_to_response('manage/gcs_upgrade_list_old.html', {'version_list': version_list},
                               context_instance=RequestContext(request))
-
-
 
 
 @login_required(login_url='auth_login')
@@ -197,9 +195,9 @@ def gcs_upgrade_edit(request, id=0):
         'git_hash': git_hash,
         'more_url': more_url,
         'description': description,
-        'form': form
-    },
-                              context_instance=RequestContext(request))
+        'form': form,
+        'version': current_version,
+    }, context_instance=RequestContext(request))
 
 
 @login_required(login_url='auth_login')
@@ -231,12 +229,13 @@ def gcs_upgrade_add_handle(request):
                 build_from=build_from,
                 version_target=version_target,
                 version_from=version_from,
-                statue=0,
+                statue=1,
                 file_name=filename,
                 md5_hash="md5",
                 git_hash=git_hash,
                 more_url=more_url,
                 description=description,
+                file_server=conf.storage_url,
             )
             version1.save()
             return HttpResponseRedirect(reverse('gcs_upgrade_list'))
@@ -244,8 +243,31 @@ def gcs_upgrade_add_handle(request):
             return HttpResponse("the upload file process occur error")
 
 
-def gcs_upgrade_edit_handle(request):
-    return render_to_response('manage/gcs_upgrade_editHandle.html')
+def gcs_upgrade_edit_handle(request, id=0):
+    if id == 0:
+        raise Http404()
+
+    build_target = request.POST['build_target']
+    build_from = request.POST['build_from']
+    version_from = request.POST['version_from']
+    version_target = request.POST['version_target']
+    git_hash = request.POST['git_hash']
+    more_url = request.POST['more_url']
+    description = request.POST['description']
+
+    version = GcsVersion.objects.get(id=id)
+    version.build_target = build_target
+    version.build_from = build_from
+    version.version_from = version_from
+    version.version_target = version_target
+    version.git_hash = git_hash
+    version.more_url = more_url
+    version.description = description
+    version.file_server = conf.storage_url
+
+    version.save()
+
+    return HttpResponseRedirect(reverse('gcs_upgrade_list'))
 
 
 @login_required(login_url='auth_login')
@@ -255,6 +277,18 @@ def gcs_upgrade_del_handle(request, id=0):
 
     version = GcsVersion.objects.get(id=id)
     version.statue = 5
+    version.save()
+
+    return HttpResponseRedirect(reverse('gcs_upgrade_list'))
+
+
+@login_required(login_url='auth_login')
+def gcs_upgrade_restore_handle(request, id=0):
+    if id == 0:
+        raise Http404()
+
+    version = GcsVersion.objects.get(id=id)
+    version.statue = 1
     version.save()
 
     return HttpResponseRedirect(reverse('gcs_upgrade_list'))

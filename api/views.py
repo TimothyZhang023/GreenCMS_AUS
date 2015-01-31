@@ -7,7 +7,7 @@ import json
 import string
 from django.views.decorators.csrf import csrf_exempt
 
-from api.models import Version
+from api.models import Version, GcsVersion
 from web2 import conf
 from django.db.models import Max
 
@@ -52,16 +52,48 @@ def version(request, version=0):
     #return HttpResponse(json.dumps(version_check_res, ensure_ascii=False))
 
 
+@csrf_exempt
 def query_gcs_diff(request, version):
-    return HttpResponse("query_gcs_diff"+version)
-    pass
+    if version == 0:
+        raise Http404()
+    user_build = string.atoi(version)
+    lastest_build = GcsVersion.objects.filter(statue=1).all().aggregate(Max('build'))
+
+    version_check_res = {}
+    file_list = {}
+    #.filter(version__gt=user_build)
+    for versionItem in GcsVersion.objects.filter(version__gt=user_build, statue=1).all():
+        version_temp = {'version': versionItem.version,
+                        'file_name': versionItem.file_name,
+                        'file_url': conf.storage_url + versionItem.file_name,
+
+
+                        'build_from': versionItem.build_from,
+                        'build_target': versionItem.build_target,
+
+                        'version_from': versionItem.version_from,
+                        'version_target': versionItem.version_target,
+
+                        'git_hash': versionItem.git_hash,
+                        'md5_hash': versionItem.md5_hash,
+                        'description': versionItem.description,
+                        'file_server': versionItem.file_server,
+                        }
+
+        file_list[versionItem.version] = version_temp
+
+    version_check_res['user_build'] = user_build
+    version_check_res['latest_build'] = lastest_build["build__max"]
+    version_check_res['diff_list'] = file_list
+
+    return HttpResponse(json.dumps(version_check_res), content_type="application/json")
 
 
 def query_gcs_plugin_diff(request, p1, name, version):
-    return HttpResponse("query_gcs_plugin_diff"+version)
+    return HttpResponse("query_gcs_plugin_diff" + version)
     pass
 
 
 def query_gcs_theme_diff(request, p1, name, version):
-    return HttpResponse("query_gcs_theme_diff"+version)
+    return HttpResponse("query_gcs_theme_diff" + version)
     pass
