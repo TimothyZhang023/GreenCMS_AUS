@@ -97,3 +97,21 @@ def query_gcs_plugin_diff(request, p1, name, version):
 def query_gcs_theme_diff(request, p1, name, version):
     return HttpResponse("query_gcs_theme_diff" + version)
     pass
+
+
+def query_gcs_plugin_list(request):
+    return HttpResponse("query_gcs_plugin_list")
+    pass
+
+
+def query_gcs_theme_list(request):
+    return HttpResponse("query_gcs_theme_list")
+    pass
+
+
+def query_gcs_plugin_detail(request, name):
+    pass
+
+
+def query_gcs_theme_detail(request, name):
+    pass
