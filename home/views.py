@@ -89,7 +89,6 @@ def manage_version_file(request):
     return HttpResponse("manage_version_file")
 
 
-@login_required(login_url='auth_login')
 def handle_uploaded_file(f, filename):
     if settings.not_sae:
         with fs._open(filename, 'wb+') as info:
@@ -138,12 +137,23 @@ def manage_changepass(request):
             return render_to_response('manage/change_pass.html', RequestContext(request, {'form': form, }))
 
 
+@login_required(login_url='auth_login')
 def gcs_upgrade_list(request):
-    version_list = GcsVersion.objects.order_by('-version').all()
+    version_list = GcsVersion.objects.filter(statue=1).order_by('-version').all()
     return render_to_response('manage/gcs_upgrade_list.html', {'version_list': version_list},
                               context_instance=RequestContext(request))
 
 
+@login_required(login_url='auth_login')
+def gcs_upgrade_list_old(request):
+    version_list = GcsVersion.objects.filter(statue=5).order_by('-version').all()
+    return render_to_response('manage/gcs_upgrade_list.html', {'version_list': version_list},
+                              context_instance=RequestContext(request))
+
+
+
+
+@login_required(login_url='auth_login')
 def gcs_upgrade_add(request):
     form = UploadFileForm()
     default_version = Opinion.get_opinion('default_version').opinion_value
@@ -165,10 +175,34 @@ def gcs_upgrade_add(request):
                               context_instance=RequestContext(request))
 
 
-def gcs_upgrade_edit(request):
-    return render_to_response('manage/gcs_upgrade_edit.html')
+@login_required(login_url='auth_login')
+def gcs_upgrade_edit(request, id=0):
+    current_version = GcsVersion.objects.filter(id=id).all()[0]
+
+    lastest_build = current_version.build_from
+    build_target = current_version.build_target
+    lastest_version = current_version.version_from
+    version_target = current_version.version_target
+    git_hash = current_version.git_hash
+    more_url = current_version.more_url
+    description = current_version.description
+
+    form = UploadFileForm()
+
+    return render_to_response('manage/gcs_upgrade_edit.html', {
+        'build_from': lastest_build,
+        'build_target': build_target,
+        'version_from': lastest_version,
+        'version_target': version_target,
+        'git_hash': git_hash,
+        'more_url': more_url,
+        'description': description,
+        'form': form
+    },
+                              context_instance=RequestContext(request))
 
 
+@login_required(login_url='auth_login')
 def gcs_upgrade_add_handle(request):
     if request.method == 'POST':
         print request.POST
@@ -181,7 +215,7 @@ def gcs_upgrade_add_handle(request):
         more_url = request.POST['more_url']
         description = request.POST['description']
         if not (build_from and build_target and version_from and version_target):
-            return HttpResponse("信息不全")
+            return HttpResponse("the information is not complete")
             #filename:GreenCMS_20140321_to_20140322.zip
         filename = 'GreenCMS_' + build_from + '_to_' + build_target + '.zip'
 
@@ -207,7 +241,7 @@ def gcs_upgrade_add_handle(request):
             version1.save()
             return HttpResponseRedirect(reverse('gcs_upgrade_list'))
         else:
-            return HttpResponse("error")
+            return HttpResponse("the upload file process occur error")
 
 
 def gcs_upgrade_edit_handle(request):
@@ -226,20 +260,22 @@ def gcs_upgrade_del_handle(request, id=0):
     return HttpResponseRedirect(reverse('gcs_upgrade_list'))
 
 
-
-
+@login_required(login_url='auth_login')
 def gcs_theme_list(request):
     return render_to_response('manage/gcs_theme_list.html')
 
 
+@login_required(login_url='auth_login')
 def gcs_plugin_list(request):
     return render_to_response('manage/gcs_plugin_list.html')
 
 
+@login_required(login_url='auth_login')
 def gcs_full_list(request):
     return render_to_response('manage/gcs_full_list.html')
 
 
+@login_required(login_url='auth_login')
 def jump(request):
     destination = request.GET.get_opinion('des', '')
     return render_to_response('jump.html', {'destination': destination}, context_instance=RequestContext(request))

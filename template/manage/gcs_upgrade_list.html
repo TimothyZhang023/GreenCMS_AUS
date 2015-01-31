@@ -3,8 +3,9 @@
     <div>
         <ul class="breadcrumb">
             <li>
-                <a href="{% url 'manage_dashboard' %}">Dashboard</a> <span class="divider">/</span>
+                <a href="{% url 'manage_dashboard' %}">Dashboard</a>
             </li>
+            <span class="divider">/</span>
             <li>
                 <a href="{% url 'gcs_upgrade_list' %}"> GCS </a>
             </li>
@@ -28,9 +29,7 @@
                     <a href="{% url 'gcs_upgrade_add' %}" class="btn btn-plus btn-round"><i
                             class="icon-plus-sign"></i></a>
                     <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-                    <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-                </div>
+                 </div>
             </div>
             <div class="box-content">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
@@ -42,21 +41,22 @@
                         <tr role="row">
                             <th class="sorting_desc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1" aria-sort="descending" aria-label="Version"
-                                style="width: 100px;">Build
+                                style="width: 150px;">Target Build
                             </th>
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
-                                rowspan="1" colspan="1" aria-label="Version From" style="width: 100px;">
-                                Version
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
+                                Target Version
                             </th>
 
                               <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
-                                rowspan="1" colspan="1" aria-label="Version From" style="width: 200px;">
-                                From
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
+                                From Build
                             </th>
 
            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
-                                        rowspan="1" colspan="1" aria-label="Version From" style="width: 200px;">
-                                        Target
+                                        rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
+                                From Version
+
 
                                     </th>
 
@@ -69,7 +69,7 @@
 
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1"
-                                aria-label=" Version To" style="width: 389px;">Action
+                                aria-label=" Version To" style="width: 400px;">Action
 
                             </th>
                         </tr>
@@ -82,8 +82,8 @@
                             <tr>
                                 <td class=" sorting_1">{{ version.build }}</td>
                                 <td class="center ">{{ version.version }}</td>
-                                <td class="center ">{{ version.version_from }} | {{ version.build_from }}</td>
-                                <td class="center ">{{ version.version_target }} | {{ version.build_target }}</td>
+                                <td class="center ">{{ version.build_from }}</td>
+                                <td class="center "> {{ version.version_from }}</td>
                                 <td class="center ">{{ version.file_name }}</td>
 
                                 <td class="center " style="line-height: 30px">
@@ -91,11 +91,11 @@
                                         <i class="icon-zoom-in icon-white"></i>
                                         View
                                     </a>
-
-                                    <a class="btn btn-inverse" href="#">
-                                        <i class="icon-ok icon-white"></i>
-                                        Approval
-                                    </a>
+{##}
+{#                                    <a class="btn btn-inverse" href="#">#}
+{#                                        <i class="icon-ok icon-white"></i>#}
+{#                                        Approval#}
+{#                                    </a>#}
 
 
                                     <a class="btn btn-info"  href="{% url 'gcs_upgrade_edit' version.id %}#" >

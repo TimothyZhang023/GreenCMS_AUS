@@ -14,6 +14,7 @@ urlpatterns = patterns('home.views',
                        url(r'^changepass/$', 'manage_changepass', name='manage_changepass'),
 
                        url(r'^gcs/upgrade/list$', 'gcs_upgrade_list', name='gcs_upgrade_list'),
+                       url(r'^gcs/upgrade/list/old$', 'gcs_upgrade_list_old', name='gcs_upgrade_list_old'),
                        url(r'^gcs/theme/list$', 'gcs_theme_list', name='gcs_theme_list'),
                        url(r'^gcs/plugin/list$', 'gcs_plugin_list', name='gcs_plugin_list'),
                        url(r'^gcs/full/list$', 'gcs_full_list', name='gcs_full_list'),

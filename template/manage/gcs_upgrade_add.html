@@ -3,14 +3,16 @@
     <div>
         <ul class="breadcrumb">
             <li>
-                <a href="{% url 'manage_dashboard' %}">Dashboard</a> <span class="divider">/</span>
+                <a href="{% url 'manage_dashboard' %}">Dashboard</a>
             </li>
+             <span class="divider">/</span>
             <li>
                 <a href="{% url 'gcs_upgrade_list' %}"> GCS </a>
             </li>
              <li>
                 <a href="{% url 'gcs_upgrade_list' %}"> Upgrade </a>
             </li>
+             <span class="divider">/</span>
             <li>
                 <a href="{% url 'gcs_upgrade_add' %}"> Add </a>
             </li>
@@ -57,7 +59,7 @@
 
                             <div class="controls">
                                 <input class="input-xlarge focused" id="build_from" type="number" name="build_from"
-                                       value="{{ build_from }}">
+                                          readonly="true"  value="{{ build_from }}">
                                 <span class="help-inline">most recent build</span>
 
                             </div>
