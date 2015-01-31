@@ -1,12 +1,11 @@
 # coding=utf-8
-from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
-from web2 import conf
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth.decorators import login_required
+
+from web2 import conf
 
 
 def auth_login(request):
