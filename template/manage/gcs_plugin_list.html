@@ -1,0 +1,131 @@
+{% extends "manage/base_with_side.html" %}
+{% block breadcrumb %}
+    <div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url 'manage_dashboard' %}">Dashboard</a>
+            </li>
+            <span class="divider">/</span>
+            <li>
+                <a href="{% url 'gcs_upgrade_list' %}"> GCS </a>
+            </li>
+            <span class="divider">/</span>
+            <li>
+                <a href="{% url 'gcs_plugin_list' %}"> Plugin List </a>
+            </li>
+
+        </ul>
+    </div>
+{% endblock %}
+
+
+{% block right_block %}
+
+    <div class="row-fluid sortable ui-sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title="">
+                <h2><i class="icon-user"></i> Plugin List</h2>
+
+                <div class="box-icon">
+                    <a href="{% url 'gcs_plugin_add' %}" class="btn btn-plus btn-round"><i
+                            class="icon-plus-sign"></i></a>
+                    <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
+
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable dataTable"
+                           id="DataTables_Table_0"
+                           aria-describedby="DataTables_Table_0_info">
+                        <thead>
+                        <tr role="row">
+                            <th class="sorting_desc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                rowspan="1" colspan="1" aria-sort="descending" aria-label="Version"
+                                style="width: 250px;">Plugin Name
+                            </th>
+                            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
+                                Version
+                            </th>
+
+                            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
+                                Build
+                            </th>
+
+                            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
+                                Author
+
+
+                            </th>
+
+                            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                rowspan="1" colspan="1"
+                                aria-label=" Version To" style="width: 94px;">
+                                Submit Date
+
+                            </th>
+
+                            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                rowspan="1" colspan="1"
+                                aria-label=" Version To" style="width: 400px;">Action
+
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody role="alert" aria-live="polite" aria-relevant="all">
+
+
+                        {% for plugin in plugin_list %}
+                            <tr>
+                                <td class="sorting_1">{{ plugin.plugin_name }}</td>
+                                <td class="center ">{{ plugin.version }}</td>
+                                <td class="center ">{{ plugin.build }}</td>
+                                <td class="center "> {{ plugin.author }}</td>
+                                <td class="center ">{{ plugin.submit_date }}</td>
+
+                                <td class="center " style="line-height: 30px">
+                                    <a class="btn btn-success" href="{% url 'query_gcs_plugin_detail' plugin.plugin_name %}">
+                                        <i class="icon-zoom-in icon-white"></i>
+                                        View
+                                    </a>
+                                    {##}
+                                    {#                                    <a class="btn btn-inverse" href="#">#}
+                                    {#                                        <i class="icon-ok icon-white"></i>#}
+                                    {#                                        Approval#}
+                                    {#                                    </a>#}
+
+
+{#                                    <a class="btn btn-info" href="{% url 'gcs_upgrade_edit' plugin.id %}#">#}
+{#                                        <i class="icon-edit icon-white"></i>#}
+{#                                        Edit#}
+{#                                    </a>#}
+
+
+                                    <a class="btn btn-danger" href="{% url 'gcs_plugin_del_handle' plugin.id %}#"
+                                       onclick="return confirm('Sure to delete?');"
+                                            >
+                                        <i class="icon-trash icon-white"></i>
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <!--/span-->
+
+    </div>
+
+{% endblock %}
+

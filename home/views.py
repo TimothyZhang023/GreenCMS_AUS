@@ -1,21 +1,28 @@
 # coding=utf-8
+import time
+import string
+
 from django.contrib import auth
-from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.contrib.auth import login, authenticate, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.validators import RegexValidator
-import time
-from api.models import Version, GcsVersion
+from django.db.models import Max
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.core.files.storage import FileSystemStorage
+
+from api.models import Version, GcsVersion, GcsPlugin, GcsTheme
 from home.models import Opinion
 from web2 import conf, settings
-from django.db.models import Max
-from django.http import Http404, HttpResponse, StreamingHttpResponse, HttpResponseRedirect
-import string
 from home.form import UploadFileForm, ChangepwdForm
-from django.core.files.storage import FileSystemStorage
+
+
+
+
+
+
+
 #
 fs = FileSystemStorage(location=settings.UPGRADE_URL)
 
@@ -296,12 +303,18 @@ def gcs_upgrade_restore_handle(request, id=0):
 
 @login_required(login_url='auth_login')
 def gcs_theme_list(request):
-    return render_to_response('manage/gcs_theme_list.html')
+    theme_list = GcsTheme.objects.filter(statue=1).order_by('-build').all()
+
+    return render_to_response('manage/gcs_theme_list.html', {'theme_list': theme_list},
+                              context_instance=RequestContext(request))
 
 
 @login_required(login_url='auth_login')
 def gcs_plugin_list(request):
-    return render_to_response('manage/gcs_plugin_list.html')
+    plugin_list = GcsPlugin.objects.filter(statue=1).order_by('-build').all()
+
+    return render_to_response('manage/gcs_plugin_list.html', {'plugin_list': plugin_list},
+                              context_instance=RequestContext(request))
 
 
 @login_required(login_url='auth_login')
@@ -313,3 +326,119 @@ def gcs_full_list(request):
 def jump(request):
     destination = request.GET.get_opinion('des', '')
     return render_to_response('jump.html', {'destination': destination}, context_instance=RequestContext(request))
+
+
+def gcs_theme_add_handle(request):
+    if request.method == 'POST':
+        print request.POST
+        print request._files
+        theme_name = request.POST['theme_name']
+        build = request.POST['build']
+        version = request.POST['version']
+
+        author = request.POST['author']
+        more_url = request.POST['more_url']
+        description = request.POST['description']
+
+        if not (theme_name and build and version and author):
+            return HttpResponse("the information is not complete")
+
+            #filename:GCS_Theme-NovaGreenStudio_build_
+        filename = 'GCS_Theme-' + theme_name + '_build_' + build + '.zip'
+
+
+        #todo upload file
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'], filename)
+            theme1 = GcsTheme(
+                theme_name=theme_name,
+
+                build=build,
+                version=version,
+                author=author,
+                statue=1,
+                md5_hash="md5",
+
+                more_url=more_url,
+                description=description,
+
+                file_name=filename,
+                file_server=conf.storage_url,
+            )
+            theme1.save()
+            return HttpResponseRedirect(reverse('gcs_theme_list'))
+        else:
+            return HttpResponse("the upload file process occur error")
+
+
+def gcs_theme_add(request):
+    form = UploadFileForm()
+
+    return render_to_response('manage/gcs_theme_add.html', {'form': form}, context_instance=RequestContext(request))
+
+
+def gcs_plugin_add_handle(request):
+    if request.method == 'POST':
+        print request.POST
+        print request._files
+        plugin_name = request.POST['plugin_name']
+        build = request.POST['build']
+        version = request.POST['version']
+
+        author = request.POST['author']
+        more_url = request.POST['more_url']
+        description = request.POST['description']
+
+        if not (plugin_name and build and version and author):
+            return HttpResponse("the information is not complete")
+
+            #filename:GCS_Plugin-Weather_build_
+        filename = 'GCS_Theme-' + plugin_name + '_build_' + build + '.zip'
+
+
+        #todo upload file
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'], filename)
+            plugin1 = GcsPlugin(
+                plugin_name=plugin_name,
+
+                build=build,
+                version=version,
+                author=author,
+                statue=1,
+                md5_hash="md5",
+
+                more_url=more_url,
+                description=description,
+
+                file_name=filename,
+                file_server=conf.storage_url,
+            )
+            plugin1.save()
+            return HttpResponseRedirect(reverse('gcs_plugin_list'))
+        else:
+            return HttpResponse("the upload file process occur error")
+
+
+def gcs_plugin_add(request):
+    form = UploadFileForm()
+
+    return render_to_response('manage/gcs_plugin_add.html', {'form': form}, context_instance=RequestContext(request))
+
+
+def gcs_theme_del_handle(request, id):
+    pass
+
+
+def gcs_theme_restore_handle(request, id):
+    pass
+
+
+def gcs_plugin_del_handle(request, id):
+    pass
+
+
+def gcs_plugin_restore_handle(request, id):
+    pass

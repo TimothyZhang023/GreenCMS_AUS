@@ -1,15 +1,15 @@
-from django.shortcuts import render
-from django.core.files.storage import FileSystemStorage
-from django.core.validators import RegexValidator
-from django.http import Http404, HttpResponse, StreamingHttpResponse
-from django.core import serializers
 import json
 import string
+
+from django.core.files.storage import FileSystemStorage
+from django.core.validators import RegexValidator
+from django.http import Http404, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Max
 
 from api.models import Version, GcsVersion
 from web2 import conf
-from django.db.models import Max
+
 
 upload_storage = FileSystemStorage(
     location=conf.UPLOAD_PATH,
@@ -78,7 +78,7 @@ def query_gcs_diff(request, version):
                         'md5_hash': versionItem.md5_hash,
                         'description': versionItem.description,
                         'file_server': versionItem.file_server,
-                        }
+        }
 
         file_list[versionItem.version] = version_temp
 
@@ -89,13 +89,13 @@ def query_gcs_diff(request, version):
     return HttpResponse(json.dumps(version_check_res), content_type="application/json")
 
 
-def query_gcs_plugin_diff(request, p1, name, version):
-    return HttpResponse("query_gcs_plugin_diff" + version)
+def query_gcs_plugin_diff(request, name, version):
+    return HttpResponse("query_gcs_plugin_diff" + name + version)
     pass
 
 
-def query_gcs_theme_diff(request, p1, name, version):
-    return HttpResponse("query_gcs_theme_diff" + version)
+def query_gcs_theme_diff(request, name, version):
+    return HttpResponse("query_gcs_theme_diff" + name + version)
     pass
 
 

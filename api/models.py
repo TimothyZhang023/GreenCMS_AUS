@@ -72,9 +72,17 @@ class GcsTheme(models.Model):
     # 1 for ok , 0 for need approval ,2 for phase ,3 for reject ,4 for unload , 5 for delete
     statue = models.IntegerField(max_length=6)
 
+    #grenerated by conf
+    file_server = models.CharField(max_length=255)
+
+    #grenerated by info
+    file_name = models.CharField(max_length=255)
+
     #description for theme
     description = models.CharField(max_length=255)
 
+    #extra url
+    more_url = models.CharField(max_length=255)
 
 class GcsPlugin(models.Model):
     #build is number 20140928
@@ -95,6 +103,14 @@ class GcsPlugin(models.Model):
     # 1 for ok , 0 for need approval ,2 for phase ,3 for reject ,4 for unload , 5 for delete
     statue = models.IntegerField(max_length=6)
 
+    #grenerated by conf
+    file_server = models.CharField(max_length=255)
+
+    #grenerated by info
+    file_name = models.CharField(max_length=255)
+
     #description for plugin
     description = models.CharField(max_length=255)
 
+    #extra url
+    more_url = models.CharField(max_length=255)
