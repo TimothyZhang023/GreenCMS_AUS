@@ -23,6 +23,9 @@ from home.form import UploadFileForm, ChangepwdForm
 
 
 
+
+
+
 #
 fs = FileSystemStorage(location=settings.UPGRADE_URL)
 
@@ -316,6 +319,21 @@ def gcs_plugin_list(request):
     return render_to_response('manage/gcs_plugin_list.html', {'plugin_list': plugin_list},
                               context_instance=RequestContext(request))
 
+@login_required(login_url='auth_login')
+def gcs_theme_list_old(request):
+    theme_list = GcsTheme.objects.filter(statue=5).order_by('-build').all()
+
+    return render_to_response('manage/gcs_theme_list_old.html', {'theme_list': theme_list},
+                              context_instance=RequestContext(request))
+
+
+@login_required(login_url='auth_login')
+def gcs_plugin_list_old(request):
+    plugin_list = GcsPlugin.objects.filter(statue=5).order_by('-build').all()
+
+    return render_to_response('manage/gcs_plugin_list_old.html', {'plugin_list': plugin_list},
+                              context_instance=RequestContext(request))
+
 
 @login_required(login_url='auth_login')
 def gcs_full_list(request):
@@ -328,6 +346,7 @@ def jump(request):
     return render_to_response('jump.html', {'destination': destination}, context_instance=RequestContext(request))
 
 
+@login_required(login_url='auth_login')
 def gcs_theme_add_handle(request):
     if request.method == 'POST':
         print request.POST
@@ -372,12 +391,7 @@ def gcs_theme_add_handle(request):
             return HttpResponse("the upload file process occur error")
 
 
-def gcs_theme_add(request):
-    form = UploadFileForm()
-
-    return render_to_response('manage/gcs_theme_add.html', {'form': form}, context_instance=RequestContext(request))
-
-
+@login_required(login_url='auth_login')
 def gcs_plugin_add_handle(request):
     if request.method == 'POST':
         print request.POST
@@ -422,23 +436,63 @@ def gcs_plugin_add_handle(request):
             return HttpResponse("the upload file process occur error")
 
 
+@login_required(login_url='auth_login')
+def gcs_theme_add(request):
+    form = UploadFileForm()
+
+    return render_to_response('manage/gcs_theme_add.html', {'form': form}, context_instance=RequestContext(request))
+
+
+@login_required(login_url='auth_login')
 def gcs_plugin_add(request):
     form = UploadFileForm()
 
     return render_to_response('manage/gcs_plugin_add.html', {'form': form}, context_instance=RequestContext(request))
 
 
+@login_required(login_url='auth_login')
 def gcs_theme_del_handle(request, id):
-    pass
+    if id == 0:
+        raise Http404()
+
+    theme = GcsTheme.objects.get(id=id)
+    theme.statue = 5
+    theme.save()
+
+    return HttpResponseRedirect(reverse('gcs_theme_list'))
 
 
+@login_required(login_url='auth_login')
 def gcs_theme_restore_handle(request, id):
-    pass
+    if id == 0:
+        raise Http404()
+
+    theme = GcsTheme.objects.get(id=id)
+    theme.statue = 1
+    theme.save()
+
+    return HttpResponseRedirect(reverse('gcs_theme_list_old'))
 
 
+@login_required(login_url='auth_login')
 def gcs_plugin_del_handle(request, id):
-    pass
+    if id == 0:
+        raise Http404()
+
+    plugin = GcsPlugin.objects.get(id=id)
+    plugin.statue = 5
+    plugin.save()
+
+    return HttpResponseRedirect(reverse('gcs_plugin_list'))
 
 
+@login_required(login_url='auth_login')
 def gcs_plugin_restore_handle(request, id):
-    pass
+    if id == 0:
+        raise Http404()
+
+    plugin = GcsPlugin.objects.get(id=id)
+    plugin.statue = 1
+    plugin.save()
+
+    return HttpResponseRedirect(reverse('gcs_plugin_list_old'))

@@ -7,7 +7,7 @@ from django.http import Http404, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
 
-from api.models import Version, GcsVersion
+from api.models import Version, GcsVersion, GcsTheme, GcsPlugin
 from web2 import conf
 
 
@@ -100,13 +100,65 @@ def query_gcs_theme_diff(request, name, version):
 
 
 def query_gcs_plugin_list(request):
-    return HttpResponse("query_gcs_plugin_list")
-    pass
+    plugin_list_db = GcsPlugin.objects.filter(statue=1).all()
+    plugin_list = {}
+    file_list = {}
+
+    for pluginItem in plugin_list_db:
+        version_temp = {
+            'version': pluginItem.version,
+            'build': pluginItem.build,
+            'plugin_name': pluginItem.plugin_name,
+
+            'file_name': pluginItem.file_name,
+            'file_server': pluginItem.file_server,
+            'file_url': conf.storage_url + pluginItem.file_name,
+
+
+            'author': pluginItem.author,
+            'submit_date': pluginItem.submit_date.strftime('%Y-%m-%d'),
+
+            'description': pluginItem.description,
+            'more_url': pluginItem.more_url,
+
+            'md5_hash': pluginItem.md5_hash,
+        }
+        file_list[pluginItem.plugin_name] = version_temp
+
+    plugin_list['list'] = file_list
+
+    return HttpResponse(json.dumps(plugin_list), content_type="application/json")
 
 
 def query_gcs_theme_list(request):
-    return HttpResponse("query_gcs_theme_list")
-    pass
+    theme_list_db = GcsTheme.objects.filter(statue=1).all()
+    theme_list = {}
+    file_list = {}
+
+    for themeItem in theme_list_db:
+        version_temp = {
+            'version': themeItem.version,
+            'build': themeItem.build,
+            'theme_name': themeItem.theme_name,
+
+            'file_name': themeItem.file_name,
+            'file_server': themeItem.file_server,
+            'file_url': conf.storage_url + themeItem.file_name,
+
+
+            'author': themeItem.author,
+            'submit_date': themeItem.submit_date.strftime('%Y-%m-%d'),
+
+            'description': themeItem.description,
+            'more_url': themeItem.more_url,
+
+            'md5_hash': themeItem.md5_hash,
+        }
+        file_list[themeItem.plugin_name] = version_temp
+
+    theme_list['list'] = file_list
+
+    return HttpResponse(json.dumps(theme_list), content_type="application/json")
 
 
 def query_gcs_plugin_detail(request, name):

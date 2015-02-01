@@ -29,6 +29,8 @@
                 <div class="box-icon">
                     <a href="{% url 'gcs_plugin_add' %}" class="btn btn-plus btn-round"><i
                             class="icon-plus-sign"></i></a>
+                    <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+
                     <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
                 </div>
             </div>
@@ -88,7 +90,8 @@
                                 <td class="center ">{{ plugin.submit_date }}</td>
 
                                 <td class="center " style="line-height: 30px">
-                                    <a class="btn btn-success" href="{% url 'query_gcs_plugin_detail' plugin.plugin_name %}">
+                                    <a class="btn btn-success"
+                                       href="{% url 'query_gcs_plugin_detail' plugin.plugin_name %}">
                                         <i class="icon-zoom-in icon-white"></i>
                                         View
                                     </a>
@@ -99,10 +102,10 @@
                                     {#                                    </a>#}
 
 
-{#                                    <a class="btn btn-info" href="{% url 'gcs_upgrade_edit' plugin.id %}#">#}
-{#                                        <i class="icon-edit icon-white"></i>#}
-{#                                        Edit#}
-{#                                    </a>#}
+                                    {#                                    <a class="btn btn-info" href="{% url 'gcs_upgrade_edit' plugin.id %}#">#}
+                                    {#                                        <i class="icon-edit icon-white"></i>#}
+                                    {#                                        Edit#}
+                                    {#                                    </a>#}
 
 
                                     <a class="btn btn-danger" href="{% url 'gcs_plugin_del_handle' plugin.id %}#"

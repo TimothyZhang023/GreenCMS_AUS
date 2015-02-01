@@ -9,8 +9,9 @@
             <li>
                 <a href="{% url 'gcs_upgrade_list' %}"> GCS </a>
             </li>
+            <span class="divider">/</span>
             <li>
-                <a href="{% url 'gcs_upgrade_list' %}"> Upgrade </a>
+                <a href="{% url 'gcs_plugin_list_old' %}"> Plugin Removed </a>
             </li>
 
         </ul>
@@ -23,12 +24,12 @@
     <div class="row-fluid sortable ui-sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title="">
-                <h2><i class="icon-user"></i> Upgrade List</h2>
+                <h2><i class="icon-user"></i> Plugin Removed</h2>
 
                 <div class="box-icon">
-                    <a href="{% url 'gcs_upgrade_add' %}" class="btn btn-plus btn-round"><i
+                    <a href="{% url 'gcs_plugin_add' %}" class="btn btn-plus btn-round"><i
                             class="icon-plus-sign"></i></a>
-                    <a href="{% url 'gcs_upgrade_list_old' %}" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+                    <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
 
                     <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
                 </div>
@@ -43,21 +44,21 @@
                         <tr role="row">
                             <th class="sorting_desc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1" aria-sort="descending" aria-label="Version"
-                                style="width: 150px;">Target Build
+                                style="width: 250px;">Plugin Name
                             </th>
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
-                                Target Version
-                            </th>
-
-                            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
-                                rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
-                                From Build
+                                Version
                             </th>
 
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
-                                From Version
+                                Build
+                            </th>
+
+                            <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
+                                rowspan="1" colspan="1" aria-label="Version From" style="width: 150px;">
+                                Author
 
 
                             </th>
@@ -65,7 +66,7 @@
                             <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0"
                                 rowspan="1" colspan="1"
                                 aria-label=" Version To" style="width: 94px;">
-                                File Name
+                                Submit Date
 
                             </th>
 
@@ -80,19 +81,20 @@
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
 
 
-                        {% for version in version_list %}
+                        {% for plugin in plugin_list %}
                             <tr>
-                                <td class=" sorting_1">{{ version.build }}</td>
-                                <td class="center ">{{ version.version }}</td>
-                                <td class="center ">{{ version.build_from }}</td>
-                                <td class="center "> {{ version.version_from }}</td>
-                                <td class="center ">{{ version.file_name }}</td>
+                                <td class="sorting_1">{{ plugin.plugin_name }}</td>
+                                <td class="center ">{{ plugin.version }}</td>
+                                <td class="center ">{{ plugin.build }}</td>
+                                <td class="center "> {{ plugin.author }}</td>
+                                <td class="center ">{{ plugin.submit_date }}</td>
 
                                 <td class="center " style="line-height: 30px">
-                                    <a class="btn btn-success" href="{% url 'query_gcs_diff' version.build_from %}">
-                                        <i class="icon-zoom-in icon-white"></i>
-                                        View
-                                    </a>
+{#                                    <a class="btn btn-success"#}
+{#                                       href="{% url 'query_gcs_plugin_detail' plugin.plugin_name %}">#}
+{#                                        <i class="icon-zoom-in icon-white"></i>#}
+{#                                        View#}
+{#                                    </a>#}
                                     {##}
                                     {#                                    <a class="btn btn-inverse" href="#">#}
                                     {#                                        <i class="icon-ok icon-white"></i>#}
@@ -100,17 +102,16 @@
                                     {#                                    </a>#}
 
 
-                                    <a class="btn btn-info" href="{% url 'gcs_upgrade_edit' version.id %}#">
-                                        <i class="icon-edit icon-white"></i>
-                                        Edit
-                                    </a>
+                                    {#                                    <a class="btn btn-info" href="{% url 'gcs_upgrade_edit' plugin.id %}#">#}
+                                    {#                                        <i class="icon-edit icon-white"></i>#}
+                                    {#                                        Edit#}
+                                    {#                                    </a>#}
 
 
-                                    <a class="btn btn-danger" href="{% url 'gcs_upgrade_del_handle' version.id %}#"
-                                       onclick="return confirm('Sure to delete?');"
-                                            >
+                                    <a class="btn btn-success" href="{% url 'gcs_plugin_restore_handle' plugin.id %}#"
+                                             >
                                         <i class="icon-trash icon-white"></i>
-                                        Delete
+                                        Restore
                                     </a>
                                 </td>
                             </tr>
