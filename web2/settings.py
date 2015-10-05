@@ -54,7 +54,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.admin',
+    'admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -141,12 +141,12 @@ UPGRADE_ROOT = os.path.join(BASE_DIR, '/static/upgrade/')
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'template'),)
 
 MAX_UPLOAD_SIZE = "524288"
-
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'mail.njut.edu.cn'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'zts1993@njut.edu.cn'
-EMAIL_HOST_PASSWORD = '262019'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
