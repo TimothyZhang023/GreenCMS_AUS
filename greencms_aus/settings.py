@@ -81,6 +81,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': MYSQL_DB,
+#         'USER': MYSQL_USER,
+#         'PASSWORD': MYSQL_PASS,
+#         'HOST': MYSQL_HOST_M,
+#         'PORT': MYSQL_PORT,
+#     }
+# }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -100,3 +111,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+MAX_UPLOAD_SIZE = "524288"
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.njut.edu.cn'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'zts1993@njut.edu.cn'
+EMAIL_HOST_PASSWORD = ''
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
